@@ -29,16 +29,19 @@ include $(DEVKITPRO)/libnx/switch_rules
 #     - icon.jpg
 #     - <libnx folder>/default_icon.jpg
 #---------------------------------------------------------------------------------
-TARGET		:=	$(notdir $(CURDIR))
-BUILD		:=	build
-SOURCES		:=	src
-DATA		:=	dat
-INCLUDES	:=	include
-EXEFS_SRC	:=	exefs_src
-ROMFS       :=  romfs
+TARGET		  := $(notdir $(CURDIR))
+BUILD		  := build
+SOURCES		  := src
+DATA		  := dat
+INCLUDES	  := include
+EXEFS_SRC	  := exefs_src
+ROMFS         := romfs
+APP_VERSION   := 0.1.5
+ICON          := icon.jpg
 
-APP_TITLE   := ScreenTester-NX
-APP_AUTHOR  := Marice Lamain
+APP_TITLE     := ScreenTester-NX
+APP_AUTHOR    := Marice Lamain
+
 
 #---------------------------------------------------------------------------------
 # options for code generation
