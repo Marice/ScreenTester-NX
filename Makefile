@@ -36,7 +36,7 @@ DATA		  := dat
 INCLUDES	  := include
 EXEFS_SRC	  := exefs_src
 ROMFS         := romfs
-APP_VERSION   := 0.1.5
+APP_VERSION   := 0.2
 ICON          := icon.jpg
 
 APP_TITLE     := ScreenTester-NX
@@ -189,8 +189,6 @@ $(OUTPUT).elf	:	$(OFILES)
 	@echo $(notdir $<)
 	@$(bin2o)
 	
-	
-
 #---------------------------------------------------------------------------------
 
 -include $(DEPENDS)

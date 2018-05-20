@@ -4,9 +4,12 @@
 #include <random>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <math.h>
 #include <time.h>
+
+using namespace std;
 
 int main(int argc, char **argv)
 {
@@ -20,10 +23,14 @@ int main(int argc, char **argv)
     if (!renderer)
         SDL_Quit();
 
-	//set default screen
-	SDL_SetRenderDrawColor(renderer, 20, 40, 60, 255);
+	SDL_Surface * image = SDL_LoadBMP("menubg.bmp");
+	SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, image);
+	
+	//set default menuscreen
 	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, texture, NULL, NULL); //load image to screen
 	SDL_RenderPresent(renderer);
+	
 	
 	while(appletMainLoop())
 	{
@@ -41,7 +48,6 @@ int main(int argc, char **argv)
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); //white
 			SDL_RenderClear(renderer);
 			SDL_RenderPresent(renderer);
-		
 		}
 
 		if (kDown & KEY_B)
@@ -75,9 +81,11 @@ int main(int argc, char **argv)
 		if (kDown & KEY_DOWN)
 		{
 			while (1) 
-			{	hidScanInput();
+			{	
+				hidScanInput();
 				u32 kDownAbb = hidKeysDown(CONTROLLER_P1_AUTO);
 				if (kDownAbb & KEY_DOWN){ break; } //abort the 'rapid screen-flicker' mode
+				
 				int r = rand() % 255;
 				int g = rand() % 255;
 				int b = rand() % 255;
@@ -87,8 +95,17 @@ int main(int argc, char **argv)
 				SDL_RenderPresent(renderer);
 			}
 		}
+				
+		if (kDown & KEY_MINUS)
+		{
+			SDL_RenderClear(renderer);
+			SDL_RenderCopy(renderer, texture, NULL, NULL); //load image to screen
+			SDL_RenderPresent(renderer);
+		}
+		
 
 	}
 
 	return 0;
 }
+
