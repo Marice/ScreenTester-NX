@@ -11,6 +11,11 @@ using namespace std;
 int main(int argc, char **argv)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
+
+	padConfigureInput(1, HidNpadStyleSet_NpadStandard);
+
+	PadState pad;
+	padInitializeDefault(&pad);
    
     //Setup window
     SDL_Window* window = SDL_CreateWindow(nullptr, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -32,50 +37,50 @@ int main(int argc, char **argv)
 	while(appletMainLoop())
 	{
 		//Scan all the inputs. This should be done once for each frame
-		hidScanInput();
-		u32 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+		padUpdate(&pad);
+		u64 kDown = padGetButtonsDown(&pad);
 
-		if (kDown & KEY_PLUS){
+		if (kDown & HidNpadButton_Plus){
 			SDL_Quit();
 			break; // break in order to return to hbmenu
 		}
 		
-		if (kDown & KEY_A)
+		if (kDown & HidNpadButton_A)
 		{
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); //white
 			SDL_RenderClear(renderer);
 			SDL_RenderPresent(renderer);
 		}
 
-		if (kDown & KEY_B) //red
+		if (kDown & HidNpadButton_B) //red
 		{
 			SDL_SetRenderDrawColor(renderer, 255, 42, 0, 255); SDL_RenderClear(renderer); SDL_RenderPresent(renderer); 
 		}
 		
-		if (kDown & KEY_X) //green
+		if (kDown & HidNpadButton_X) //green
 		{
 			SDL_SetRenderDrawColor(renderer, 46, 255, 0, 255); SDL_RenderClear(renderer); SDL_RenderPresent(renderer);
 		}
 		
-		if (kDown & KEY_Y) //blue
+		if (kDown & HidNpadButton_Y) //blue
 		{
 			SDL_SetRenderDrawColor(renderer, 16, 0, 255, 255); SDL_RenderClear(renderer); SDL_RenderPresent(renderer);
 		}
 		
-		if (kDown & KEY_UP) //black
+		if (kDown & HidNpadButton_Up) //black
 		{
 			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); SDL_RenderClear(renderer); SDL_RenderPresent(renderer);
 		}
 		
-		if (kDown & KEY_DOWN)
+		if (kDown & HidNpadButton_Down)
 		{
 			while (1) 
 			{	
-				hidScanInput();
-				u32 kDownAbb = hidKeysDown(CONTROLLER_P1_AUTO);
-				if (kDownAbb & KEY_DOWN){ break; } //abort the 'rapid random color cycle' mode
-				if (kDownAbb & KEY_PLUS){ break; }
-				if (kDownAbb & KEY_MINUS){ break; }
+				padUpdate(&pad);
+				u64 kDownAbb = padGetButtonsDown(&pad);
+				if (kDownAbb & HidNpadButton_Down){ break; } //abort the 'rapid random color cycle' mode
+				if (kDownAbb & HidNpadButton_Plus){ break; }
+				if (kDownAbb & HidNpadButton_Minus){ break; }
 				
 				int r = rand() % 255;
 				int g = rand() % 255;
@@ -87,15 +92,15 @@ int main(int argc, char **argv)
 			}
 		}
 		
-		if (kDown & KEY_LEFT)
+		if (kDown & HidNpadButton_Left)
 		{
 			while (1) 
 			{	
-				hidScanInput();
-				u32 kDownAbb = hidKeysDown(CONTROLLER_P1_AUTO);
-				if (kDownAbb & KEY_LEFT){ break; } //abort the 'Rapid rgb' mode
-				if (kDownAbb & KEY_PLUS){ break; }
-				if (kDownAbb & KEY_MINUS){ break; }
+				padUpdate(&pad);
+				u32 kDownAbb = padGetButtonsDown(&pad);
+				if (kDownAbb & HidNpadButton_Left){ break; } //abort the 'Rapid rgb' mode
+				if (kDownAbb & HidNpadButton_Plus){ break; }
+				if (kDownAbb & HidNpadButton_Minus){ break; }
 				
 				//flash rgb
 				SDL_SetRenderDrawColor(renderer, 255, 42, 0, 255); SDL_RenderClear(renderer); SDL_RenderPresent(renderer);
@@ -104,7 +109,7 @@ int main(int argc, char **argv)
 			}
 		}
 				
-		if (kDown & KEY_MINUS) //load menu image
+		if (kDown & HidNpadButton_Minus) //load menu image
 		{
 			SDL_RenderClear(renderer); SDL_RenderCopy(renderer, texture, NULL, NULL); SDL_RenderPresent(renderer);
 		}
