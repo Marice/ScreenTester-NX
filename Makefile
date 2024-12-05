@@ -35,7 +35,6 @@ SOURCES		  := src
 DATA		  := dat
 INCLUDES	  := include
 EXEFS_SRC	  := exefs_src
-ROMFS         := romfs
 APP_VERSION   := 0.2
 ICON          := icon.jpg
 
