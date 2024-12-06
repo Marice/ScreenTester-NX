@@ -35,12 +35,11 @@ SOURCES		  := src
 DATA		  := dat
 INCLUDES	  := include
 EXEFS_SRC	  := exefs_src
-ROMFS         := romfs
-APP_VERSION   := 0.2
-ICON          := icon.jpg
-
-APP_TITLE     := ScreenTester-NX
-APP_AUTHOR    := Marice Lamain
+APP_VERSION	  := 0.2
+ICON		  := icon.jpg
+DIST		  := dist
+APP_TITLE	  := ScreenTester-NX
+APP_AUTHOR	  := Marice Lamain
 
 
 #---------------------------------------------------------------------------------
@@ -152,11 +151,19 @@ all: $(BUILD)
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	@mkdir -p ${DIST}/switch/ScreenTester-NX
+	@cp menubg.bmp ${DIST}/switch/ScreenTester-NX/
+	@cp $(OUTPUT).nro  ${DIST}/switch/ScreenTester-NX/
+	@cd ${DIST}; zip -r ${TARGET}.zip ./*; cd ../;
+
+
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).pfs0 $(TARGET).nso $(TARGET).nro $(TARGET).nacp $(TARGET).elf
+	@rm -fr $(BUILD) $(TARGET).pfs0 $(TARGET).nso $(TARGET).nro $(TARGET).nacp $(TARGET).elf $(DIST)
+
+
 
 
 #---------------------------------------------------------------------------------
